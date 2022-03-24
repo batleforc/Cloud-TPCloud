@@ -1,1 +1,1 @@
-web: bin/Cloud-TPCloud
+web: bin/tp-cloud
