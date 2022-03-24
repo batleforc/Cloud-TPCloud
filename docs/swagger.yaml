@@ -1,13 +1,124 @@
 basePath: /api
+definitions:
+  model.Task:
+    properties:
+      id:
+        type: string
+      label:
+        type: string
+      status:
+        type: boolean
+    type: object
+  routes.AddTaskBody:
+    properties:
+      label:
+        type: string
+    type: object
+  routes.ChangeStatusTaskBody:
+    properties:
+      status:
+        type: boolean
+    type: object
+  routes.EditTitleTaskBody:
+    properties:
+      label:
+        type: string
+    type: object
 info:
   contact: {}
   description: Api TODO List du cours de virtualisation
-  title: Todolist Cloud Computing
+  title: Todolist Cloud Deployment
   version: "1.0"
 paths:
   /tache:
     get:
       description: get all todotask in mongodb
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Task'
+            type: array
       summary: Allow the user to get all todotask
+    post:
+      description: create todotask in mongodb
+      parameters:
+      - description: Label
+        in: body
+        name: Label
+        required: true
+        schema:
+          $ref: '#/definitions/routes.AddTaskBody'
+      responses: {}
+      summary: Allow the user to create todotask
+  /tache/{id}:
+    delete:
+      parameters:
+      - description: Task Id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+      summary: Delete todoTask
+    get:
+      description: get one todotask in mongodb
+      parameters:
+      - description: Task Id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Task'
+            type: array
+      summary: Allow the user to get one todotask
+    put:
+      parameters:
+      - description: Label
+        in: body
+        name: Label
+        required: true
+        schema:
+          $ref: '#/definitions/routes.EditTitleTaskBody'
+      - description: Task Id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+      summary: Edit todoTask Label
+  /tache/{id}/change-statut:
+    put:
+      parameters:
+      - description: Status
+        in: body
+        name: Label
+        required: true
+        schema:
+          $ref: '#/definitions/routes.ChangeStatusTaskBody'
+      - description: Task Id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+      summary: Edit todoTask Status
 swagger: "2.0"

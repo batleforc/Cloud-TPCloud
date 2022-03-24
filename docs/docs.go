@@ -20,7 +20,179 @@ const docTemplate = `{
             "get": {
                 "description": "get all todotask in mongodb",
                 "summary": "Allow the user to get all todotask",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Task"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create todotask in mongodb",
+                "summary": "Allow the user to create todotask",
+                "parameters": [
+                    {
+                        "description": "Label",
+                        "name": "Label",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.AddTaskBody"
+                        }
+                    }
+                ],
                 "responses": {}
+            }
+        },
+        "/tache/{id}": {
+            "get": {
+                "description": "get one todotask in mongodb",
+                "summary": "Allow the user to get one todotask",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Task"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit todoTask Label",
+                "parameters": [
+                    {
+                        "description": "Label",
+                        "name": "Label",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.EditTitleTaskBody"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Task Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Task"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete todoTask",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Task Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Task"
+                        }
+                    }
+                }
+            }
+        },
+        "/tache/{id}/change-statut": {
+            "put": {
+                "summary": "Edit todoTask Status",
+                "parameters": [
+                    {
+                        "description": "Status",
+                        "name": "Label",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.ChangeStatusTaskBody"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Task Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Task"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Task": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "routes.AddTaskBody": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.ChangeStatusTaskBody": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "routes.EditTitleTaskBody": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                }
             }
         }
     }
@@ -32,7 +204,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "Todolist Cloud Computing",
+	Title:            "Todolist Cloud Deployment",
 	Description:      "Api TODO List du cours de virtualisation",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
