@@ -1,0 +1,19 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api TODO List du cours de virtualisation",
+        "title": "Todolist Cloud Computing",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/tache": {
+            "get": {
+                "description": "get all todotask in mongodb",
+                "summary": "Allow the user to get all todotask",
+                "responses": {}
+            }
+        }
+    }
+}

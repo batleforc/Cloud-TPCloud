@@ -1,0 +1,13 @@
+basePath: /api
+info:
+  contact: {}
+  description: Api TODO List du cours de virtualisation
+  title: Todolist Cloud Computing
+  version: "1.0"
+paths:
+  /tache:
+    get:
+      description: get all todotask in mongodb
+      responses: {}
+      summary: Allow the user to get all todotask
+swagger: "2.0"
