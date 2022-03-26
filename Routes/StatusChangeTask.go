@@ -13,7 +13,7 @@ import (
 )
 
 type ChangeStatusTaskBody struct {
-	Status bool
+	Status bool `json:"status"`
 }
 
 // ChangeStatusTask godoc

@@ -9,9 +9,9 @@ import (
 )
 
 type Task struct {
-	Id     primitive.ObjectID `bson:"_id,omitempty"`
-	Label  string
-	Status bool
+	Id     primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Label  string             `json:"label"`
+	Status bool               `json:"status"`
 }
 
 func (t *Task) GetTaskById(Dbhandler Db, Client *mongo.Client, id primitive.ObjectID) error {

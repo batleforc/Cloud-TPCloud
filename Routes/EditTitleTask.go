@@ -13,7 +13,7 @@ import (
 )
 
 type EditTitleTaskBody struct {
-	Label string
+	Label string `json:"label"`
 }
 
 // EditTitleTask godoc
