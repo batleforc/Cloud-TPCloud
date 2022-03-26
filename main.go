@@ -36,7 +36,7 @@ func main() {
 		Format: "[${remote_ip} : ${time_rfc3339_nano}] ${status} : ${method} => ${uri}\n",
 	}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: strings.Split("http://localhost:3000,http://localhost:3001", ","),
+		AllowOrigins: strings.Split("http://localhost:3000,http://localhost:3001,https://niort-tpcloud-front.herokuapp.com", ","),
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAuthorization, echo.HeaderAccept},
 	}))
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
