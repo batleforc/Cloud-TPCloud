@@ -19,7 +19,7 @@ type EditDeadLineTaskBody struct {
 
 // EditTitleTask godoc
 // @Summary Edit todoTask DeadLine
-// @Param Label body routes.EditDeadLineTaskBody true "Label"
+// @Param DeadLine body routes.EditDeadLineTaskBody true "DeadLine"
 // @Param id  path string true "Task Id"
 // @Success 200 {object} model.Task
 // @Router /tache/{id}/deadline [put]
