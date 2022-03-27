@@ -4,13 +4,15 @@ import (
 	"batleforc/tp-cloud/model"
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type AddTaskBody struct {
-	Label string `json:"label"`
+	Label    string     `json:"label"`
+	DeadLine *time.Time `json:"deadline,omitempty"`
 }
 
 // AddTask godoc
@@ -27,6 +29,6 @@ func AddTask(c echo.Context) error {
 	if err := c.Bind(boudy); err != nil {
 		return c.JSON(http.StatusBadRequest, "Body invalid")
 	}
-	coll.InsertOne(context.TODO(), model.CreateNextTask(boudy.Label))
+	coll.InsertOne(context.TODO(), model.CreateNextTask(boudy.Label, boudy.DeadLine))
 	return c.JSON(http.StatusOK, "OK")
 }

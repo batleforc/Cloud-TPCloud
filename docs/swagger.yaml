@@ -2,6 +2,8 @@ basePath: /api
 definitions:
   model.Task:
     properties:
+      DeadLine:
+        type: string
       id:
         type: string
       label:
@@ -11,6 +13,8 @@ definitions:
     type: object
   routes.AddTaskBody:
     properties:
+      deadline:
+        type: string
       label:
         type: string
     type: object
@@ -18,6 +22,11 @@ definitions:
     properties:
       status:
         type: boolean
+    type: object
+  routes.EditDeadLineTaskBody:
+    properties:
+      deadline:
+        type: string
     type: object
   routes.EditTitleTaskBody:
     properties:
@@ -121,4 +130,24 @@ paths:
           schema:
             $ref: '#/definitions/model.Task'
       summary: Edit todoTask Status
+  /tache/{id}/deadline:
+    put:
+      parameters:
+      - description: Label
+        in: body
+        name: Label
+        required: true
+        schema:
+          $ref: '#/definitions/routes.EditDeadLineTaskBody'
+      - description: Task Id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+      summary: Edit todoTask DeadLine
 swagger: "2.0"

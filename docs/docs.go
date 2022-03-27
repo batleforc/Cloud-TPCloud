@@ -154,12 +154,46 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/tache/{id}/deadline": {
+            "put": {
+                "summary": "Edit todoTask DeadLine",
+                "parameters": [
+                    {
+                        "description": "Label",
+                        "name": "Label",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.EditDeadLineTaskBody"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Task Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Task"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "model.Task": {
             "type": "object",
             "properties": {
+                "DeadLine": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -174,6 +208,9 @@ const docTemplate = `{
         "routes.AddTaskBody": {
             "type": "object",
             "properties": {
+                "deadline": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 }
@@ -184,6 +221,14 @@ const docTemplate = `{
             "properties": {
                 "status": {
                     "type": "boolean"
+                }
+            }
+        },
+        "routes.EditDeadLineTaskBody": {
+            "type": "object",
+            "properties": {
+                "deadline": {
+                    "type": "string"
                 }
             }
         },

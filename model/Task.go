@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -9,9 +10,10 @@ import (
 )
 
 type Task struct {
-	Id     primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Label  string             `json:"label"`
-	Status bool               `json:"status"`
+	Id       primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Label    string             `json:"label"`
+	Status   bool               `json:"status"`
+	DeadLine *time.Time         `json:"DeadLine,omitempty"`
 }
 
 func (t *Task) GetTaskById(Dbhandler Db, Client *mongo.Client, id primitive.ObjectID) error {
@@ -22,9 +24,10 @@ func GetTaskColl(Database Db, client *mongo.Client) *mongo.Collection {
 	return Database.GetDb(client).Collection("Task")
 }
 
-func CreateNextTask(Label string) *Task {
+func CreateNextTask(Label string, deadLine *time.Time) *Task {
 	return &Task{
-		Label:  Label,
-		Status: false,
+		Label:    Label,
+		Status:   false,
+		DeadLine: deadLine,
 	}
 }
