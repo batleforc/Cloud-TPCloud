@@ -63,6 +63,7 @@ func main() {
 
 	task.PUT("/:id", routes.EditTitleTask)
 	task.PUT("/:id/change-statut", routes.ChangeStatusTask)
+	task.PUT("/:id/deadline", routes.EditDeadLineTask)
 	task.DELETE("/:id", routes.DeleteTask)
 
 	if val, exist := os.LookupEnv("PORT"); exist {
