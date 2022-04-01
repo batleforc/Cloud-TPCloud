@@ -45,7 +45,10 @@ func main() {
 	}))
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	task := e.Group("/api/tache")
+	api := e.Group("/api")
+
+	task := api.Group("/tache")
+	apiNotif := api.Group("/notif")
 
 	task.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -74,6 +77,9 @@ func main() {
 	task.PUT("/:id/change-statut", routes.ChangeStatusTask)
 	task.PUT("/:id/deadline", routes.EditDeadLineTask)
 	task.DELETE("/:id", routes.DeleteTask)
+
+	apiNotif.POST("/send", routes.SendNotif)
+	apiNotif.POST("", routes.AddNotif)
 
 	if val, exist := os.LookupEnv("PORT"); exist {
 		e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", val)))
