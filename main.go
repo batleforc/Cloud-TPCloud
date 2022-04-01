@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/SherClockHolmes/webpush-go"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -26,6 +27,9 @@ var DB = "mongodb+srv://tp-cloud:RhtX1ZRUcXik5ZLk@db1.pg9nx.mongodb.net/?retryWr
 func main() {
 	e := echo.New()
 	DbHandler := model.Db{}
+	notif := model.Push{}
+	notifBuffer := []webpush.Subscription{}
+	notif.InitFromVar()
 	if val, exist := os.LookupEnv("DB"); exist {
 		DbHandler.Init(val, os.Getenv("ENV"))
 	} else {
@@ -50,9 +54,14 @@ func main() {
 				return echo.NewHTTPError(http.StatusServiceUnavailable, fmt.Sprintf("Database init Err %s", err))
 			}
 			err = client.Connect(context.TODO())
+			if err != nil {
+				return echo.NewHTTPError(http.StatusServiceUnavailable, fmt.Sprintf("Database conn Err %s", err))
+			}
 			defer client.Disconnect(context.TODO())
 			c.Set("DB", DbHandler)
 			c.Set("Client", client)
+			c.Set("Push", &notif)
+			c.Set("NotifBuffer", &notifBuffer)
 			return next(c)
 		}
 	})

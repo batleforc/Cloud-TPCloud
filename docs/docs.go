@@ -16,6 +16,42 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/notif": {
+            "post": {
+                "description": "Add notification to the array of notification",
+                "summary": "Add notification to the array of notification",
+                "parameters": [
+                    {
+                        "description": "notification",
+                        "name": "Notification",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.AddNotifBody"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/notif/send": {
+            "post": {
+                "description": "Send notification to the array of notification",
+                "summary": "Send notification to the array of notification",
+                "parameters": [
+                    {
+                        "description": "subscription",
+                        "name": "Sub",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SendNotifBody"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/tache": {
             "get": {
                 "description": "get all todotask in mongodb",
@@ -160,8 +196,8 @@ const docTemplate = `{
                 "summary": "Edit todoTask DeadLine",
                 "parameters": [
                     {
-                        "description": "Label",
-                        "name": "Label",
+                        "description": "DeadLine",
+                        "name": "DeadLine",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -188,6 +224,52 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.Action": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Notification": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Action"
+                    }
+                },
+                "body": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "vibrate": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "model.Task": {
             "type": "object",
             "properties": {
@@ -202,6 +284,14 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "boolean"
+                }
+            }
+        },
+        "routes.AddNotifBody": {
+            "type": "object",
+            "properties": {
+                "subscription": {
+                    "$ref": "#/definitions/webpush.Subscription"
                 }
             }
         },
@@ -237,6 +327,36 @@ const docTemplate = `{
             "properties": {
                 "label": {
                     "type": "string"
+                }
+            }
+        },
+        "routes.SendNotifBody": {
+            "type": "object",
+            "properties": {
+                "notif": {
+                    "$ref": "#/definitions/model.Notification"
+                }
+            }
+        },
+        "webpush.Keys": {
+            "type": "object",
+            "properties": {
+                "auth": {
+                    "type": "string"
+                },
+                "p256dh": {
+                    "type": "string"
+                }
+            }
+        },
+        "webpush.Subscription": {
+            "type": "object",
+            "properties": {
+                "endpoint": {
+                    "type": "string"
+                },
+                "keys": {
+                    "$ref": "#/definitions/webpush.Keys"
                 }
             }
         }

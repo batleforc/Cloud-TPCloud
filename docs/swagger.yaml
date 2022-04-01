@@ -1,5 +1,35 @@
 basePath: /api
 definitions:
+  model.Action:
+    properties:
+      action:
+        type: string
+      icon:
+        type: string
+      title:
+        type: string
+    type: object
+  model.Notification:
+    properties:
+      actions:
+        items:
+          $ref: '#/definitions/model.Action'
+        type: array
+      body:
+        type: string
+      icon:
+        type: string
+      image:
+        type: string
+      tag:
+        type: string
+      title:
+        type: string
+      vibrate:
+        items:
+          type: integer
+        type: array
+    type: object
   model.Task:
     properties:
       DeadLine:
@@ -10,6 +40,11 @@ definitions:
         type: string
       status:
         type: boolean
+    type: object
+  routes.AddNotifBody:
+    properties:
+      subscription:
+        $ref: '#/definitions/webpush.Subscription'
     type: object
   routes.AddTaskBody:
     properties:
@@ -33,12 +68,55 @@ definitions:
       label:
         type: string
     type: object
+  routes.SendNotifBody:
+    properties:
+      notif:
+        $ref: '#/definitions/model.Notification'
+    type: object
+  webpush.Keys:
+    properties:
+      auth:
+        type: string
+      p256dh:
+        type: string
+    type: object
+  webpush.Subscription:
+    properties:
+      endpoint:
+        type: string
+      keys:
+        $ref: '#/definitions/webpush.Keys'
+    type: object
 info:
   contact: {}
   description: Api TODO List du cours de virtualisation
   title: Todolist Cloud Deployment
   version: "1.0"
 paths:
+  /notif:
+    post:
+      description: Add notification to the array of notification
+      parameters:
+      - description: notification
+        in: body
+        name: Notification
+        required: true
+        schema:
+          $ref: '#/definitions/routes.AddNotifBody'
+      responses: {}
+      summary: Add notification to the array of notification
+  /notif/send:
+    post:
+      description: Send notification to the array of notification
+      parameters:
+      - description: subscription
+        in: body
+        name: Sub
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SendNotifBody'
+      responses: {}
+      summary: Send notification to the array of notification
   /tache:
     get:
       description: get all todotask in mongodb
@@ -133,9 +211,9 @@ paths:
   /tache/{id}/deadline:
     put:
       parameters:
-      - description: Label
+      - description: DeadLine
         in: body
-        name: Label
+        name: DeadLine
         required: true
         schema:
           $ref: '#/definitions/routes.EditDeadLineTaskBody'
